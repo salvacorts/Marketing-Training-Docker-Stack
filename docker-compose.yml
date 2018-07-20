@@ -1,0 +1,56 @@
+version: '3.0'
+services:
+  mautic:
+    image: mautic/mautic
+    ports:
+      - "8080:80"
+    links:
+      - db-mautic:mysql
+    env_file:
+      - mautic.env
+    volumes:
+      - mautic-data:/var/www/html
+    networks:
+      - mautic-net
+    depends_on:
+      - db-mautic
+  db-mautic:
+    image: mysql:5.6
+    volumes:
+      - db-mautic-data:/var/lib/mysql
+    env_file:
+      - mautic.env
+    networks:
+      - mautic-net
+  magento:
+    image: alexcheng/magento2
+    ports:
+      - "80:80"
+    links:
+      - db-magento
+    env_file:
+      - magento.env
+    volumes:
+      - magento-data:/var/www/html
+    networks:
+      - magento-net
+    depends_on:
+      - db-magento
+  db-magento:
+    image: mysql:5.6
+    volumes:
+      - db-magento-data:/var/lib/mysql
+    env_file:
+      - magento.env
+    networks:
+      - magento-net     
+
+volumes:
+  db-magento-data:
+  db-mautic-data:
+  magento-data:
+  mautic-data:
+
+networks:
+  mautic-net:
+  magento-net:
