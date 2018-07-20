@@ -2,10 +2,9 @@ version: '3.0'
 services:
   mautic:
     image: mautic/mautic
+    restart: always
     ports:
       - "8080:80"
-    links:
-      - db-mautic:mysql
     env_file:
       - mautic.env
     volumes:
@@ -16,6 +15,7 @@ services:
       - db-mautic
   db-mautic:
     image: mysql:5.6
+    restart: always
     volumes:
       - db-mautic-data:/var/lib/mysql
     env_file:
@@ -24,6 +24,7 @@ services:
       - mautic-net
   magento:
     image: alexcheng/magento2
+    restart: always
     ports:
       - "80:80"
     links:
@@ -38,6 +39,7 @@ services:
       - db-magento
   db-magento:
     image: mysql:5.6
+    restart: always
     volumes:
       - db-magento-data:/var/lib/mysql
     env_file:
