@@ -1,14 +1,23 @@
 #!/bin/bash
 
-service_file=docker-compose.service
-working_path=$(pwd)
+service_file=mautic-magento-docker.service
+install_path=/srv/docker
+
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run as root"
+	exit
+fi
 
 if [ "$1" == "install" ]; then
-	echo "Configuring service"
-	sed -i "s|WorkingDirectory=|WorkingDirectory=$working_path|" $service_file
+	echo "Copying compose file to $install_path"
+	mkdir -p $install_path
+	cp ./*.yml $install_path/
+	cp ./*.env $install_path/
+
+	echo "Installing service"
+	sed "s|_install_path|$install_path|" $service_file | tee /etc/systemd/system/$service_file
 
 	echo "Enabling service"
-	cp $service_file /etc/systemd/system/$service_file
 	systemctl enable $service_file
 
 	echo "Starting service"
@@ -20,8 +29,10 @@ elif [ "$1" == "uninstall" ]; then
 	echo "Stopping service"
 	systemctl stop $service_file
 
-	echo "Deleting systemd service file"
+	echo "Deleting files"
 	rm /etc/systemd/system/$service_file
+	rm $install_path/*.yml
+	rm $install_path/*.env
 else
 	echo "Missing argument:"
 	echo "Usage: ./$0 <install | uninstall>"

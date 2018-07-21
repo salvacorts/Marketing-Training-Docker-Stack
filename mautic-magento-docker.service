@@ -1,0 +1,20 @@
+[Unit]
+Description=Mautic and Magento stack using Docker
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStartSec=0
+WorkingDirectory=_install_path	# Set by setup script
+
+# Compose up
+ExecStart=/usr/local/bin/docker-compose up -d
+
+# Compose down, remove containers
+ExecStop=/usr/local/bin/docker-compose down
+
+
+[Install]
+WantedBy=multi-user.target
