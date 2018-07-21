@@ -7,14 +7,13 @@ After=docker.service
 Type=oneshot
 RemainAfterExit=yes
 TimeoutStartSec=0
-WorkingDirectory=_install_path	# Set by setup script
+WorkingDirectory=_install_path
 
-# Compose up
+Environment=DOCKER_CLIENT_TIMEOUT=120
+Environment=COMPOSE_HTTP_TIMEOUT=120
+
 ExecStart=/usr/local/bin/docker-compose up -d
-
-# Compose down, remove containers
 ExecStop=/usr/local/bin/docker-compose down
-
 
 [Install]
 WantedBy=multi-user.target
