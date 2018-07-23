@@ -35,5 +35,5 @@ elif [ "$1" == "uninstall" ]; then
 	rm $install_path/*.env
 else
 	echo "Missing argument:"
-	echo "Usage: ./$0 <install | uninstall>"
+	echo "Usage: $0 <install | uninstall>"
 fi
