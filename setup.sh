@@ -1,6 +1,6 @@
 #!/bin/bash
 
-service_file=mautic-magento-docker.service
+service_file=marketing-training-docker.service
 install_path=/srv/docker
 
 if [ "$EUID" -ne 0 ]; then

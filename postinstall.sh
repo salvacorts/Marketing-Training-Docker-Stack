@@ -50,7 +50,7 @@ if [[ $# < 1 ]]; then
 	exit
 fi
 
-containers=( "mautic" "db-mautic" "magento" "db-magento" )
+containers=( "mautic" "db-mautic" "magento" "db-magento" "wordpress" "db-wordpress" )
 
 case "$1" in
 	"backup")

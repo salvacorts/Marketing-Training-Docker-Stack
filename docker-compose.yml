@@ -5,7 +5,7 @@ services:
     container_name: mautic
     restart: always
     ports:
-      - "8080:80"
+      - "80:80"
     env_file:
       - mautic.env
     volumes:
@@ -14,6 +14,7 @@ services:
       - mautic-net
     depends_on:
       - db-mautic
+      - wordpress
   db-mautic:
     image: mysql:5.6
     container_name: db-mautic
@@ -24,14 +25,13 @@ services:
       - mautic.env
     networks:
       - mautic-net
+
   magento:
     image: alexcheng/magento2
     container_name: magento
     restart: always
     ports:
-      - "80:80"
-    links:
-      - db-magento
+      - "81:80"
     env_file:
       - magento.env
     volumes:
@@ -51,12 +51,41 @@ services:
     networks:
       - magento-net     
 
+  wordpress:
+    image: wordpress
+    container_name: wordpress
+    restart: always
+    ports:
+      - 82:80
+    env_file:
+      - wordpress.env
+    volumes:
+      - wordpress-data:/var/www/html
+    networks: 
+      - wordpress-net
+    depends_on:
+      - db-wordpress
+  db-wordpress:
+    image: mysql:5.7
+    container_name: db-wordpress
+    restart: always
+    volumes:
+      - db-wordpress-data:/var/lib/mysql
+    env_file:
+      - wordpress.env
+    networks:
+      - wordpress-net  
+
+
 volumes:
+  db-wordpress-data:
   db-magento-data:
   db-mautic-data:
+  wordpress-data:
   magento-data:
   mautic-data:
 
 networks:
-  mautic-net:
+  wordpress-net:
   magento-net:
+  mautic-net:

@@ -1,5 +1,5 @@
 [Unit]
-Description=Mautic and Magento stack using Docker
+Description=Magento, Mautic and Wordpress training stack using Docker
 Requires=docker.service
 After=docker.service
 
