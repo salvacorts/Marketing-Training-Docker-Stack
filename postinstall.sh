@@ -1,5 +1,7 @@
 #!/bin/bash
 
+service=marketing-training.docker.service
+
 # Backup containers data volumes.
 # Arguments:
 #	- $1: Backup path
@@ -29,6 +31,9 @@ function load_backup {
 	backup_path="${args[0]}"
 	containers=("${args[@]:1}")
 
+	# Shut down all containers
+	systemctl stop $service
+
 	for c in "${containers[@]}"; do
 		data_path=$(docker inspect -f '{{ (index .Mounts 0).Source }}' $c)
 		backup=$backup_path/$c-data_bak.tar
@@ -37,16 +42,25 @@ function load_backup {
 		rm -rf $data_path/_data
 		tar -xf $backup -C $data_path
 	done
+
+	# Start all containers again
+	systemctl start $service
 }
 
 # Install magento running container installation files
 function install_magento {
-	docker -exec -it magento "install_magento"
-	docker -exec -it magento "install_sampledata"
+	docker exec -it magento "install-magento"
+	docker exec -it magento "install-sampledata"
 }
 
+
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run as root"
+	exit
+fi
+
 if [[ $# < 1 ]]; then
-	echo "Usage: $0 <backup | load_backup | install-magento"
+	echo "Usage: $0 <backup | load_backup | install-magento>"
 	exit
 fi
 
@@ -69,7 +83,7 @@ case "$1" in
 
 		load_backup $2 "${containers[@]}"
 		;;
-	"intall-magento")
+	"install-magento")
 		install_magento
 		;;
 esac
