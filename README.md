@@ -2,8 +2,6 @@
 
 Mautic, Magento and Wordpress deployment for learning purposes.
 
-[TOC]
-
 ### Requirements
 
 - **CPU:** 4 cores, 2GHz
@@ -101,6 +99,6 @@ sudo docker-compose logs -f
 
 #### Learn more:
 
-1. **Connect to server with ssh: ** https://www.howtogeek.com/311287/how-to-connect-to-an-ssh-server-from-windows-macos-or-linux/
+1. **Connect to server with ssh:** https://www.howtogeek.com/311287/how-to-connect-to-an-ssh-server-from-windows-macos-or-linux/
 2. **Basics of Linux command line:** https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners
 3. **Mounting volumes in Ubuntu:** https://linuxconfig.org/howto-mount-usb-drive-in-linux
