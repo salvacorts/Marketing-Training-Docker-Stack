@@ -32,7 +32,7 @@ You **must** edit Magento configuration file before installation. Edit `magento.
 1. variables in bold **must** be changed.
 2. You can use `nano` command to edit them. Check this tutorial: https://www.howtogeek.com/howto/42980/the-beginners-guide-to-nano-the-linux-command-line-text-editor/
 
-	nce you have configured Magento editing `magento.env`, you can use the installation script in order to setup your server.  I will install, enable and start the Systemd service required to recover from server reboots.	
+	Once you have configured Magento editing `magento.env`, you can use the installation script in order to setup your server.  I will install, enable and start the Systemd service required to recover from server reboots.	
 
 ```bash
 git clone https://github.com/salvacorts/Marketing-Training-Docker-Stack.git
